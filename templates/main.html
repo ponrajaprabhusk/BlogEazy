@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href='{% static "css/blog.css" %}'>
+  <title>BlogEasy</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  {# MEDIUM STYLE EDITOR#}
+  <script src="//cdn.jsdelivr.net/medium-editor/latest/js/medium-editor.min.js"></script>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/medium-editor/latest/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+
+  {# Fonts#}
+  <link href="https://fonts.googleapis.com/css?family=Montserrat|Russo+One" rel="stylesheet">
+
+</head>
+<body>
+  <nav class="navbar navbar-default techfont custom-navbar">
+    <div class="container">
+      <ul class="nav navbar-nav">
+        <li><a href="{% url '' %}">All Blogs</a></li>
+        <li><a href="{% url 'create-blog' %}">Create a Blog</a></li>
+        <!-- <li><a href="#">About</a></li> -->
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'users' %}">Profile</a></li> 
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'register' %}">Login/Register</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>    
+  <body class='loader'>
+          <div class="content container">
+              <div class="row">
+                  <div class="col-md-8">
+                    <h1 style="color: #fff;"> All Blogs</h1>
+                      <div class="blog_posts">
+                        {% for blog in blogs %}
+                        <br>
+                        <tr>
+                          <td> <h4 style="color: rgb(199, 192, 192);"> <b style="color: rgb(255, 246, 246);">Title: </b> <b>{{ blog.title }}</b></h4><a href="{% url 'edit-blog' blog.id %}"><b>Edit Blog</b> </a>  &nbsp; <a href="{% url 'delete-blog' blog.id %}"><b>Delete</b> </a></td>
+                          <br>
+                            <td><h5 style="color: #fff;"><b>Description: </b></h5></td>
+                            <td> <p style="color: rgb(192, 179, 179);">{{ blog.description }} </p> </td> <br>
+                            <td>  <p style="color: rgb(192, 179, 179);"> Created on: {{blog.created}} </p></td>
+                          <td> <img style="max-width:100vh;" src="{{ blog.featured_image.url }}" alt="Img does not exist"> </td> <br>
+                        </tr>
+                        <br>
+                        {% endfor %}
+    
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+</body>
+</html>
