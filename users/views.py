@@ -6,16 +6,30 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from .models import Profile
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm , ProfileForm
 
 # Create your views here.
 @login_required(login_url='login')
 def profile_page(request):
     profile = request.user.profile
-    print(profile)
 
     context = { 'profile': profile }
     return render(request, 'users/profile_page.html', context)
+
+@login_required(login_url='login')
+def update_profile(request):
+    profile = request.user.profile
+    form = ProfileForm(instance=profile)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+
+            return redirect('users')
+
+    context = {'form': form}
+    return render(request, 'users/update_profile.html', context)
 
 def loginUser(request):
     if request.user.is_authenticated:
