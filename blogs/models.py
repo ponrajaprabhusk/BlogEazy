@@ -1,11 +1,12 @@
 from django.db import models
+from users.models import Profile
 import uuid
 
 # Create your models here.
 
 class Blog(models.Model):
-    # owner = models.ForeignKey(
-    # Profile, null=True, blank=True, on_delete=models.CASCADE)
+    owner = models.ForeignKey(
+    Profile, null=True, blank=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
     featured_image = models.ImageField(null=True, blank=True)
@@ -16,15 +17,8 @@ class Blog(models.Model):
         return self.title
 
     class Meta:
-        ordering = ['title']
+        ordering = ['created']
 
-    # @property
-    # def imageURL(self):
-    #     try:
-    #         url = self.featured_image.url
-    #     except:
-    #         url = ''
-    #     return url
 
 class Comments(models.Model):
     id = models.UUIDField(Blog, primary_key=True ,unique=True, editable= False)

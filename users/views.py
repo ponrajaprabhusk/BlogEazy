@@ -12,6 +12,7 @@ from .forms import CustomUserCreationForm
 @login_required(login_url='login')
 def profile_page(request):
     profile = request.user.profile
+    print(profile)
 
     context = { 'profile': profile }
     return render(request, 'users/profile_page.html', context)

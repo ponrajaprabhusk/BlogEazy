@@ -1,8 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <style>
+        h1{
+            color: white;
+        }
+        h4{
+            color: aliceblue;
+        }
+        p{
+            color: cornsilk;
+        }
+    </style>
     <h1>Hello {{profile.name}}!!</h1>
-    <p>{{profile.id}}</p>
+    <img src="{{profile.profile_image_url}}" alt="{{profile.username}}" srcset="">
+    <p>User id: {{profile.id}}</p>
+
+    <h4> Email:  {{profile.email}}</h4>
+    <h4>Usernmae: {{profile.username}}</h4>
+    <h4>Location:  {{profile.location}}</h4>
+    <h4>Short_Intro:  {{profile.short_intro}}</h4>
+    <h4>Bio: {{profile.bio}}</h4>
+
+    <h4>LinkedIn: {{profile.social_linkedin}}</h4>
+    <h4>Website Link: {{profile.social_website}}</h4>
+    
 
 
 
