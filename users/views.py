@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 from .models import Profile
 from .forms import CustomUserCreationForm
@@ -10,13 +11,14 @@ from .forms import CustomUserCreationForm
 # Create your views here.
 @login_required(login_url='login')
 def profile_page(request):
-    user = Profile.objects.all()
-    context = { 'user': user }
-    return render(request, 'profile_page.html', context)
+    profile = request.user.profile
+
+    context = { 'profile': profile }
+    return render(request, 'users/profile_page.html', context)
 
 def loginUser(request):
     if request.user.is_authenticated:
-        return redirect('users')
+        return redirect('')
 
     if request.method == 'POST':
         username = request.POST['username'].lower()
@@ -43,6 +45,9 @@ def logoutUser(request):
     return redirect('')
 
 def registerUser(request):
+    if request.user.is_authenticated:
+        return redirect('')
+
     register_form = CustomUserCreationForm()
     if request.method == 'POST':
         register_form = CustomUserCreationForm(request.POST)
